@@ -113,7 +113,7 @@ cd student-result-management
 ### 2. Create a virtual environment (recommended)
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+.\venv\Scripts\activate  
 ```
 
 ### 3. Install dependencies
