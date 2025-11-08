@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="admin-container">
+        <nav class="admin-navbar">
+            <div class="navbar-brand">
+                <h2>Admin Dashboard</h2>
+            </div>
+            <div class="navbar-menu">
+                <a href="{{ url_for('admin_dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="{{ url_for('add_student') }}" class="nav-link">Add Student</a>
+                <a href="{{ url_for('add_subject') }}" class="nav-link">Add Subject</a>
+                <a href="{{ url_for('add_marks') }}" class="nav-link">Add Marks</a>
+                <a href="{{ url_for('view_results') }}" class="nav-link active">View Results</a>
+                <a href="{{ url_for('admin_logout') }}" class="nav-link logout">Logout</a>
+            </div>
+        </nav>
+        
+        <div class="admin-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <div class="results-page">
+                <h1>All Results</h1>
+                
+                {% if results %}
+                    <div class="table-container">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>Roll No</th>
+                                    <th>Name</th>
+                                    <th>Class</th>
+                                    <th>Total Marks</th>
+                                    <th>Percentage</th>
+                                    <th>Grade</th>
+                                    <th>Subjects</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for result in results %}
+                                    <tr>
+                                        <td>{{ result.student.roll_no }}</td>
+                                        <td>{{ result.student.name }}</td>
+                                        <td>{{ result.student.class_name }}</td>
+                                        <td>{{ result.total }}</td>
+                                        <td>{{ result.percentage }}%</td>
+                                        <td><span class="grade-badge grade-{{ result.grade|lower|replace('+', 'plus')|replace(' ', '-') }}">{{ result.grade }}</span></td>
+                                        <td>{{ result.num_subjects }}</td>
+                                        <td>
+                                            <a href="{{ url_for('delete_student', student_id=result.student.id) }}" 
+                                               class="btn btn-danger btn-sm" 
+                                               onclick="return confirm('Are you sure you want to delete this student? This will also delete all their marks.')">Delete</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="no-results">
+                        <p>No results found. Please add students and marks first.</p>
+                    </div>
+                {% endif %}
+                
+                <div class="action-buttons">
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

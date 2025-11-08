@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Student Result Management System</h1>
+            <p>Enter your roll number to view your results</p>
+        </div>
+        
+        <div class="form-container">
+            <form action="{{ url_for('result') }}" method="POST" class="result-form">
+                <div class="form-group">
+                    <label for="roll_no">Roll Number:</label>
+                    <input type="text" id="roll_no" name="roll_no" required placeholder="Enter your roll number">
+                </div>
+                <button type="submit" class="btn btn-primary">View Result</button>
+            </form>
+            
+            <div class="admin-link">
+                <a href="{{ url_for('admin_login') }}">Admin Login</a>
+            </div>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
+

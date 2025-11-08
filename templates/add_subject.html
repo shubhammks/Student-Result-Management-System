@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Subject</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="admin-container">
+        <nav class="admin-navbar">
+            <div class="navbar-brand">
+                <h2>Admin Dashboard</h2>
+            </div>
+            <div class="navbar-menu">
+                <a href="{{ url_for('admin_dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="{{ url_for('add_student') }}" class="nav-link">Add Student</a>
+                <a href="{{ url_for('add_subject') }}" class="nav-link active">Add Subject</a>
+                <a href="{{ url_for('add_marks') }}" class="nav-link">Add Marks</a>
+                <a href="{{ url_for('view_results') }}" class="nav-link">View Results</a>
+                <a href="{{ url_for('admin_logout') }}" class="nav-link logout">Logout</a>
+            </div>
+        </nav>
+        
+        <div class="admin-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <div class="form-page">
+                <h1>Add New Subject</h1>
+                
+                <form action="{{ url_for('add_subject') }}" method="POST" class="admin-form">
+                    <div class="form-group">
+                        <label for="name">Subject Name:</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter subject name">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Add Subject</button>
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
